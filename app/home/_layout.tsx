@@ -1,4 +1,4 @@
-// app/home/_layout.tsx - Complete Layout with Settings Tab
+// app/home/_layout.tsx - Fixed Navigation Layout
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
@@ -17,10 +17,10 @@ export default function TabLayout() {
           backgroundColor: colors.surface,
           borderTopWidth: 1,
           borderTopColor: colors.border,
-          height: Platform.OS === 'ios' ? 88 : 68,
-          paddingBottom: Platform.OS === 'ios' ? 24 : 8,
+          height: Platform.OS === 'ios' ? 95 : 70,
+          paddingBottom: Platform.OS === 'ios' ? 30 : 10,
           paddingTop: 8,
-          paddingHorizontal: 16,
+          paddingHorizontal: 8,
           shadowColor: colors.shadow,
           shadowOffset: {
             width: 0,
@@ -29,11 +29,15 @@ export default function TabLayout() {
           shadowOpacity: 0.1,
           shadowRadius: 12,
           elevation: 12,
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
         },
         tabBarLabelStyle: {
-          fontSize: 12,
+          fontSize: 11,
           fontWeight: '600',
-          marginTop: 4,
+          marginTop: 2,
         },
         tabBarIconStyle: {
           marginBottom: 0,
