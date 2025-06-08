@@ -1,170 +1,72 @@
-// app/tabs/skills.tsx
-import React, { useEffect, useState } from 'react';
+// app/home/skills.tsx - Enhanced with Dark Mode and Modular Components
+import React, { useState } from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  ScrollView,
-  Animated,
-  TouchableOpacity,
-  Dimensions,
+  FlatList,
+  StatusBar,
 } from 'react-native';
+import { useTheme } from '../../contexts/ThemeContext';
 import { portfolioData } from '../../constants/portfolioData';
-
-const { width } = Dimensions.get('window');
-
-interface Skill {
-  name: string;
-  level: number;
-  category: string;
-  icon: string;
-}
-
-const SkillCard = ({ skill, index }: { skill: Skill; index: number }) => {
-  const animatedValue = new Animated.Value(0);
-  const scaleValue = new Animated.Value(0);
-
-  useEffect(() => {
-    // Stagger animations
-    const delay = index * 100;
-
-    setTimeout(() => {
-      Animated.parallel([
-        Animated.timing(animatedValue, {
-          toValue: skill.level,
-          duration: 1500,
-          useNativeDriver: false,
-        }),
-        Animated.spring(scaleValue, {
-          toValue: 1,
-          tension: 50,
-          friction: 7,
-          useNativeDriver: true,
-        }),
-      ]).start();
-    }, delay);
-  }, [skill.level, index]);
-
-  const progressWidth = animatedValue.interpolate({
-    inputRange: [0, 100],
-    outputRange: ['0%', '100%'],
-    extrapolate: 'clamp',
-  });
-
-  const getSkillColor = (level: number) => {
-    if (level >= 90) return '#4CAF50';
-    if (level >= 80) return '#2196F3';
-    if (level >= 70) return '#FF9800';
-    return '#9C27B0';
-  };
-
-  return (
-    <Animated.View
-      style={[
-        styles.skillCard,
-        { transform: [{ scale: scaleValue }] }
-      ]}
-    >
-      <View style={styles.skillHeader}>
-        <View style={styles.skillTitleContainer}>
-          <Text style={styles.skillIcon}>{skill.icon}</Text>
-          <Text style={styles.skillName}>{skill.name}</Text>
-        </View>
-        <View style={styles.levelContainer}>
-          <Text style={[styles.skillLevel, { color: getSkillColor(skill.level) }]}>
-            {skill.level}%
-          </Text>
-        </View>
-      </View>
-
-      <View style={styles.progressBarContainer}>
-        <Animated.View
-          style={[
-            styles.progressBar,
-            {
-              width: progressWidth,
-              backgroundColor: getSkillColor(skill.level)
-            }
-          ]}
-        />
-      </View>
-
-      <View style={styles.skillFooter}>
-        <Text style={styles.proficiencyText}>
-          {skill.level >= 90 ? 'Expert' :
-           skill.level >= 80 ? 'Advanced' :
-           skill.level >= 70 ? 'Intermediate' : 'Learning'}
-        </Text>
-      </View>
-    </Animated.View>
-  );
-};
-
-const CategoryHeader = ({ title, color, count }: { title: string; color: string; count: number }) => (
-  <View style={[styles.categoryHeader, { backgroundColor: color }]}>
-    <Text style={styles.categoryTitle}>{title}</Text>
-    <View style={styles.countBadge}>
-      <Text style={styles.countText}>{count}</Text>
-    </View>
-  </View>
-);
+import { SkillCard, FilterButton } from '../components/ui';
+import { Skill } from '../components/ui/types';
 
 export default function SkillsScreen() {
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  const { colors, colorScheme } = useTheme();
+  const [filter, setFilter] = useState('All');
 
-  const categories = ['All', 'Expert', 'Intermediate', 'Learning'];
+  const categories = ['All', 'Expert', 'Advanced', 'Intermediate'];
 
   // Group skills by proficiency level
-  const expertSkills = portfolioData.skills.filter(skill => skill.level >= 80);
+  const expertSkills = portfolioData.skills.filter(skill => skill.level >= 90);
+  const advancedSkills = portfolioData.skills.filter(skill => skill.level >= 80 && skill.level < 90);
   const intermediateSkills = portfolioData.skills.filter(skill => skill.level >= 60 && skill.level < 80);
-  const learningSkills = portfolioData.skills.filter(skill => skill.level < 60);
 
   const getFilteredSkills = () => {
-    switch (selectedCategory) {
+    switch (filter) {
       case 'Expert': return expertSkills;
+      case 'Advanced': return advancedSkills;
       case 'Intermediate': return intermediateSkills;
-      case 'Learning': return learningSkills;
       default: return portfolioData.skills;
     }
   };
 
   const filteredSkills = getFilteredSkills();
 
-  const renderCategoryButton = (category: string) => (
-    <TouchableOpacity
-      key={category}
-      style={[
-        styles.categoryButton,
-        selectedCategory === category && styles.activeCategoryButton
-      ]}
-      onPress={() => setSelectedCategory(category)}
-    >
-      <Text style={[
-        styles.categoryButtonText,
-        selectedCategory === category && styles.activeCategoryButtonText
-      ]}>
-        {category}
-      </Text>
-    </TouchableOpacity>
+  const renderSkill = ({ item, index }: { item: Skill; index: number }) => (
+    <SkillCard skill={item} index={index} animated={true} />
   );
 
-  const renderSkillsSection = (title: string, skills: Skill[], color: string) => {
-    if (skills.length === 0) return null;
+  const renderFilterButton = (type: string) => {
+    const count = type === 'All'
+      ? portfolioData.skills.length
+      : type === 'Expert'
+      ? expertSkills.length
+      : type === 'Advanced'
+      ? advancedSkills.length
+      : intermediateSkills.length;
 
     return (
-      <View style={styles.section} key={title}>
-        <CategoryHeader title={title} color={color} count={skills.length} />
-        <View style={styles.sectionContent}>
-          {skills.map((skill, index) => (
-            <SkillCard key={skill.name} skill={skill} index={index} />
-          ))}
-        </View>
-      </View>
+      <FilterButton
+        key={type}
+        title={type}
+        active={filter === type}
+        onPress={() => setFilter(type)}
+        count={count}
+      />
     );
   };
 
+  const styles = createStyles(colors);
+
   return (
     <View style={styles.container}>
+      <StatusBar
+        barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
+        backgroundColor={colors.background}
+      />
+
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Technical Skills</Text>
         <Text style={styles.headerSubtitle}>
@@ -172,15 +74,16 @@ export default function SkillsScreen() {
         </Text>
       </View>
 
-      {/* Category Filter */}
+      {/* Filter Buttons */}
       <View style={styles.filterContainer}>
-        <ScrollView
+        <FlatList
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.filterScrollView}
-        >
-          {categories.map(renderCategoryButton)}
-        </ScrollView>
+          data={categories}
+          renderItem={({ item }) => renderFilterButton(item)}
+          keyExtractor={(item) => item}
+          contentContainerStyle={styles.filterList}
+        />
       </View>
 
       {/* Skills Overview Cards */}
@@ -188,103 +91,62 @@ export default function SkillsScreen() {
         <View style={styles.overviewCard}>
           <Text style={styles.overviewNumber}>{expertSkills.length}</Text>
           <Text style={styles.overviewLabel}>Expert Level</Text>
-          <View style={[styles.overviewIndicator, { backgroundColor: '#4CAF50' }]} />
+          <View style={[styles.overviewIndicator, { backgroundColor: colors.success }]} />
+        </View>
+        <View style={styles.overviewCard}>
+          <Text style={styles.overviewNumber}>{advancedSkills.length}</Text>
+          <Text style={styles.overviewLabel}>Advanced</Text>
+          <View style={[styles.overviewIndicator, { backgroundColor: colors.info }]} />
         </View>
         <View style={styles.overviewCard}>
           <Text style={styles.overviewNumber}>{intermediateSkills.length}</Text>
           <Text style={styles.overviewLabel}>Intermediate</Text>
-          <View style={[styles.overviewIndicator, { backgroundColor: '#FF9800' }]} />
-        </View>
-        <View style={styles.overviewCard}>
-          <Text style={styles.overviewNumber}>{learningSkills.length}</Text>
-          <Text style={styles.overviewLabel}>Learning</Text>
-          <View style={[styles.overviewIndicator, { backgroundColor: '#9C27B0' }]} />
+          <View style={[styles.overviewIndicator, { backgroundColor: colors.warning }]} />
         </View>
       </View>
 
-      <ScrollView
+      {/* Skills List */}
+      <FlatList
+        data={filteredSkills}
+        renderItem={renderSkill}
+        keyExtractor={(item) => item.name}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={styles.scrollContainer}
-      >
-        {selectedCategory === 'All' ? (
-          <>
-            {expertSkills.length > 0 && renderSkillsSection('Expert Level (80%+)', expertSkills, '#4CAF50')}
-            {intermediateSkills.length > 0 && renderSkillsSection('Intermediate Level (60-79%)', intermediateSkills, '#FF9800')}
-            {learningSkills.length > 0 && renderSkillsSection('Learning (<60%)', learningSkills, '#9C27B0')}
-          </>
-        ) : (
-          <View style={styles.section}>
-            <CategoryHeader
-              title={`${selectedCategory} Skills`}
-              color={
-                selectedCategory === 'Expert' ? '#4CAF50' :
-                selectedCategory === 'Intermediate' ? '#FF9800' : '#9C27B0'
-              }
-              count={filteredSkills.length}
-            />
-            <View style={styles.sectionContent}>
-              {filteredSkills.map((skill, index) => (
-                <SkillCard key={skill.name} skill={skill} index={index} />
-              ))}
-            </View>
-          </View>
-        )}
-      </ScrollView>
+        contentContainerStyle={styles.listContainer}
+      />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: colors.background,
   },
   header: {
     padding: 20,
     paddingTop: 60,
-    backgroundColor: '#fff',
+    backgroundColor: colors.surface,
     borderBottomWidth: 1,
-    borderBottomColor: '#e9ecef',
+    borderBottomColor: colors.border,
   },
   headerTitle: {
     fontSize: 28,
     fontWeight: 'bold',
-    color: '#333',
+    color: colors.text,
     marginBottom: 5,
   },
   headerSubtitle: {
     fontSize: 16,
-    color: '#666',
+    color: colors.textSecondary,
   },
   filterContainer: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.surface,
     paddingVertical: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#e9ecef',
+    borderBottomColor: colors.border,
   },
-  filterScrollView: {
+  filterList: {
     paddingHorizontal: 15,
-  },
-  categoryButton: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    marginRight: 12,
-    borderRadius: 25,
-    backgroundColor: '#f8f9fa',
-    borderWidth: 2,
-    borderColor: '#e9ecef',
-  },
-  activeCategoryButton: {
-    backgroundColor: '#667eea',
-    borderColor: '#667eea',
-  },
-  categoryButtonText: {
-    fontSize: 14,
-    color: '#666',
-    fontWeight: '600',
-  },
-  activeCategoryButtonText: {
-    color: '#fff',
   },
   overviewContainer: {
     flexDirection: 'row',
@@ -293,28 +155,30 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
   },
   overviewCard: {
-    backgroundColor: '#fff',
+    backgroundColor: colors.surface,
     flex: 1,
     padding: 15,
     marginHorizontal: 5,
     borderRadius: 12,
     alignItems: 'center',
-    shadowColor: '#000',
+    shadowColor: colors.shadow,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
     position: 'relative',
+    borderWidth: 1,
+    borderColor: colors.border,
   },
   overviewNumber: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#333',
+    color: colors.text,
     marginBottom: 5,
   },
   overviewLabel: {
     fontSize: 12,
-    color: '#666',
+    color: colors.textSecondary,
     textAlign: 'center',
     fontWeight: '500',
   },
@@ -327,103 +191,7 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
   },
-  scrollContainer: {
+  listContainer: {
     paddingBottom: 30,
-  },
-  section: {
-    marginTop: 20,
-    marginHorizontal: 15,
-    borderRadius: 16,
-    overflow: 'hidden',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  categoryHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-  },
-  categoryTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#fff',
-  },
-  countBadge: {
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 12,
-  },
-  countText: {
-    fontSize: 12,
-    color: '#fff',
-    fontWeight: '600',
-  },
-  sectionContent: {
-    backgroundColor: '#fff',
-  },
-  skillCard: {
-    padding: 20,
-    borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
-  },
-  skillHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  skillTitleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
-  },
-  skillIcon: {
-    fontSize: 20,
-    marginRight: 12,
-  },
-  skillName: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
-    flex: 1,
-  },
-  levelContainer: {
-    backgroundColor: '#f8f9fa',
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-    borderRadius: 12,
-  },
-  skillLevel: {
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
-  progressBarContainer: {
-    height: 6,
-    backgroundColor: '#e9ecef',
-    borderRadius: 3,
-    overflow: 'hidden',
-    marginBottom: 10,
-  },
-  progressBar: {
-    height: '100%',
-    borderRadius: 3,
-  },
-  skillFooter: {
-    alignItems: 'flex-start',
-  },
-  proficiencyText: {
-    fontSize: 12,
-    color: '#666',
-    fontWeight: '500',
-    backgroundColor: '#f8f9fa',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 8,
   },
 });
