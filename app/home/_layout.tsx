@@ -6,7 +6,7 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: '#007AFF',
+        tabBarActiveTintColor: '#667eea',
         tabBarInactiveTintColor: '#8E8E93',
         tabBarStyle: {
           backgroundColor: '#fff',
@@ -15,6 +15,14 @@ export default function TabLayout() {
           height: 84,
           paddingBottom: 20,
           paddingTop: 8,
+          shadowColor: '#000',
+          shadowOffset: {
+            width: 0,
+            height: -2,
+          },
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          elevation: 8,
         },
         tabBarLabelStyle: {
           fontSize: 12,
@@ -26,28 +34,52 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <FontAwesome size={24} name="home" color={color} />,
+          tabBarIcon: ({ color, focused }) => (
+            <FontAwesome
+              size={focused ? 26 : 24}
+              name="home"
+              color={color}
+            />
+          ),
         }}
       />
       <Tabs.Screen
         name="projects"
         options={{
           title: 'Projects',
-          tabBarIcon: ({ color }) => <FontAwesome size={24} name="briefcase" color={color} />,
+          tabBarIcon: ({ color, focused }) => (
+            <FontAwesome
+              size={focused ? 26 : 24}
+              name="briefcase"
+              color={color}
+            />
+          ),
         }}
       />
       <Tabs.Screen
         name="skills"
         options={{
           title: 'Skills',
-          tabBarIcon: ({ color }) => <FontAwesome size={24} name="star" color={color} />,
+          tabBarIcon: ({ color, focused }) => (
+            <FontAwesome
+              size={focused ? 26 : 24}
+              name="star"
+              color={color}
+            />
+          ),
         }}
       />
       <Tabs.Screen
         name="contact"
         options={{
           title: 'Contact',
-          tabBarIcon: ({ color }) => <FontAwesome size={24} name="envelope" color={color} />,
+          tabBarIcon: ({ color, focused }) => (
+            <FontAwesome
+              size={focused ? 26 : 24}
+              name="envelope"
+              color={color}
+            />
+          ),
         }}
       />
     </Tabs>
