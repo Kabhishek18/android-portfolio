@@ -1,67 +1,27 @@
-// app/tabs/contact.tsx
+// app/home/contact.tsx - Enhanced with Modular Components
 import React from 'react';
 import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
-  Linking,
   ScrollView,
   Alert,
-  Dimensions,
+  Linking,
+  StatusBar,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useTheme } from '../../contexts/ThemeContext';
 import { portfolioData } from '../../constants/portfolioData';
-
-const { width } = Dimensions.get('window');
-
-interface ContactButtonProps {
-  icon: keyof typeof Ionicons.glyphMap;
-  title: string;
-  subtitle: string;
-  onPress: () => void;
-  color: string;
-  gradient?: boolean;
-}
-
-const ContactButton: React.FC<ContactButtonProps> = ({ icon, title, subtitle, onPress, color, gradient }) => (
-  <TouchableOpacity
-    style={[
-      styles.contactButton,
-      { borderLeftColor: color },
-      gradient && styles.gradientButton
-    ]}
-    onPress={onPress}
-    activeOpacity={0.7}
-  >
-    <View style={[styles.iconContainer, { backgroundColor: color }]}>
-      <Ionicons name={icon} size={24} color="#fff" />
-    </View>
-    <View style={styles.contactInfo}>
-      <Text style={styles.contactTitle}>{title}</Text>
-      <Text style={styles.contactSubtitle}>{subtitle}</Text>
-    </View>
-    <Ionicons name="chevron-forward" size={20} color="#ccc" />
-  </TouchableOpacity>
-);
-
-const SocialButton = ({ platform, url, color, icon }: {
-  platform: string;
-  url: string;
-  color: string;
-  icon: keyof typeof Ionicons.glyphMap;
-}) => (
-  <TouchableOpacity
-    style={[styles.socialButton, { backgroundColor: color }]}
-    onPress={() => Linking.openURL(url)}
-    activeOpacity={0.8}
-  >
-    <Ionicons name={icon} size={24} color="#fff" />
-    <Text style={styles.socialButtonText}>{platform}</Text>
-  </TouchableOpacity>
-);
+import {
+  Section,
+  ContactButton,
+  SocialButton,
+  Button,
+  Card
+} from '../components/ui';
 
 export default function ContactScreen() {
+  const { colors, colorScheme } = useTheme();
   const { profile } = portfolioData;
 
   const handleEmail = () => {
@@ -126,142 +86,149 @@ Best regards,`);
     });
   };
 
+  const styles = createStyles(colors);
+
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      {/* Header */}
-      <View style={styles.header}>
-        <View style={styles.headerContent}>
-          <Text style={styles.headerTitle}>Let's Connect! 🤝</Text>
-          <Text style={styles.headerSubtitle}>
-            I'm always excited to discuss new opportunities and collaborate on interesting projects
-          </Text>
-        </View>
-      </View>
+    <View style={styles.container}>
+      <StatusBar
+        barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
+        backgroundColor={colors.background}
+      />
 
-      {/* Quick Actions */}
-      <View style={styles.quickActionsSection}>
-        <Text style={styles.sectionTitle}>Quick Contact</Text>
-        <View style={styles.quickActionsGrid}>
-          <TouchableOpacity
-            style={[styles.quickActionButton, { backgroundColor: '#667eea' }]}
+      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+        {/* Header */}
+        <View style={styles.header}>
+          <View style={styles.headerContent}>
+            <Text style={styles.headerTitle}>Let's Connect! 🤝</Text>
+            <Text style={styles.headerSubtitle}>
+              I'm always excited to discuss new opportunities and collaborate on interesting projects
+            </Text>
+          </View>
+        </View>
+
+        {/* Quick Actions */}
+        <Card style={styles.quickActionsCard}>
+          <Text style={styles.cardTitle}>Quick Contact</Text>
+          <View style={styles.quickActionsGrid}>
+            <Button
+              title="Email"
+              onPress={handleEmail}
+              icon="mail"
+              variant="primary"
+              style={styles.quickActionButton}
+            />
+
+            <Button
+              title="WhatsApp"
+              onPress={handleWhatsApp}
+              icon="logo-whatsapp"
+              variant="success"
+              style={styles.quickActionButton}
+            />
+          </View>
+        </Card>
+
+        {/* Contact Information */}
+        <Section title="Contact Information">
+          <ContactButton
+            icon="mail"
+            title="Email"
+            subtitle={profile.email}
             onPress={handleEmail}
-          >
-            <Ionicons name="mail" size={28} color="#fff" />
-            <Text style={styles.quickActionText}>Email</Text>
-          </TouchableOpacity>
+            color={colors.primary}
+            gradient
+          />
 
-          <TouchableOpacity
-            style={[styles.quickActionButton, { backgroundColor: '#25D366' }]}
+          <ContactButton
+            icon="call"
+            title="Phone"
+            subtitle={profile.phone}
+            onPress={handlePhone}
+            color={colors.success}
+          />
+
+          <ContactButton
+            icon="logo-whatsapp"
+            title="WhatsApp"
+            subtitle="Quick messaging & voice calls"
             onPress={handleWhatsApp}
-          >
-            <Ionicons name="logo-whatsapp" size={28} color="#fff" />
-            <Text style={styles.quickActionText}>WhatsApp</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      {/* Contact Methods */}
-      <View style={styles.contactSection}>
-        <Text style={styles.sectionTitle}>Contact Information</Text>
-
-        <ContactButton
-          icon="mail"
-          title="Email"
-          subtitle={profile.email}
-          onPress={handleEmail}
-          color="#667eea"
-          gradient
-        />
-
-        <ContactButton
-          icon="call"
-          title="Phone"
-          subtitle={profile.phone}
-          onPress={handlePhone}
-          color="#4CAF50"
-        />
-
-        <ContactButton
-          icon="logo-whatsapp"
-          title="WhatsApp"
-          subtitle="Quick messaging & voice calls"
-          onPress={handleWhatsApp}
-          color="#25D366"
-        />
-
-        <ContactButton
-          icon="globe-outline"
-          title="Website"
-          subtitle={profile.website}
-          onPress={handleWebsite}
-          color="#FF6B35"
-        />
-      </View>
-
-      {/* Social & Professional */}
-      <View style={styles.socialSection}>
-        <Text style={styles.sectionTitle}>Social & Professional</Text>
-
-        <View style={styles.socialGrid}>
-          <SocialButton
-            platform="GitHub"
-            url={profile.github}
-            color="#333"
-            icon="logo-github"
+            color="#25D366"
           />
 
-          <SocialButton
-            platform="LinkedIn"
-            url={profile.linkedin}
-            color="#0A66C2"
-            icon="logo-linkedin"
+          <ContactButton
+            icon="globe-outline"
+            title="Website"
+            subtitle={profile.website}
+            onPress={handleWebsite}
+            color={colors.accent}
           />
-        </View>
+        </Section>
 
-        <View style={styles.socialGrid}>
-          <SocialButton
-            platform="Twitter"
-            url={profile.twitter}
-            color="#1DA1F2"
-            icon="logo-twitter"
-          />
+        {/* Social & Professional */}
+        <Section title="Social & Professional">
+          <View style={styles.socialGrid}>
+            <SocialButton
+              platform="GitHub"
+              url={profile.github}
+              color="#333"
+              icon="logo-github"
+              style={styles.socialButton}
+            />
 
-          <SocialButton
-            platform="Freelancer"
-            url={profile.freelancer}
-            color="#00b4d8"
-            icon="briefcase-outline"
-          />
-        </View>
-      </View>
-
-      {/* Response Time Info */}
-      <View style={styles.responseSection}>
-        <View style={styles.responseCard}>
-          <View style={styles.responseIcon}>
-            <Ionicons name="time" size={32} color="#667eea" />
+            <SocialButton
+              platform="LinkedIn"
+              url={profile.linkedin}
+              color="#0A66C2"
+              icon="logo-linkedin"
+              style={styles.socialButton}
+            />
           </View>
-          <View style={styles.responseContent}>
-            <Text style={styles.responseTitle}>Response Time</Text>
-            <Text style={styles.responseText}>
-              Usually responds within 24 hours
-            </Text>
-            <Text style={styles.responseSubtext}>
-              Faster response via WhatsApp or email
-            </Text>
-          </View>
-        </View>
-      </View>
 
-      {/* Availability Status */}
-      <View style={styles.availabilitySection}>
-        <View style={styles.availabilityCard}>
+          <View style={styles.socialGrid}>
+            <SocialButton
+              platform="Twitter"
+              url={profile.twitter}
+              color="#1DA1F2"
+              icon="logo-twitter"
+              style={styles.socialButton}
+            />
+
+            <SocialButton
+              platform="Freelancer"
+              url={profile.freelancer}
+              color="#00b4d8"
+              icon="briefcase-outline"
+              style={styles.socialButton}
+            />
+          </View>
+        </Section>
+
+        {/* Response Time Info */}
+        <Card>
+          <View style={styles.responseCard}>
+            <View style={styles.responseIcon}>
+              <Ionicons name="time" size={32} color={colors.primary} />
+            </View>
+            <View style={styles.responseContent}>
+              <Text style={styles.responseTitle}>Response Time</Text>
+              <Text style={styles.responseText}>
+                Usually responds within 24 hours
+              </Text>
+              <Text style={styles.responseSubtext}>
+                Faster response via WhatsApp or email
+              </Text>
+            </View>
+          </View>
+        </Card>
+
+        {/* Availability Status */}
+        <Card>
           <View style={styles.availabilityHeader}>
             <View style={styles.statusContainer}>
               <View style={styles.statusDot} />
               <Text style={styles.statusText}>Available for Work</Text>
             </View>
-            <Ionicons name="briefcase" size={24} color="#4CAF50" />
+            <Ionicons name="briefcase" size={24} color={colors.success} />
           </View>
 
           <Text style={styles.availabilityTitle}>Open to New Opportunities</Text>
@@ -283,30 +250,34 @@ Best regards,`);
               <Text style={styles.opportunityTagText}>Technical Consulting</Text>
             </View>
           </View>
-        </View>
-      </View>
+        </Card>
 
-      {/* Contact Form CTA */}
-      <View style={styles.ctaSection}>
-        <TouchableOpacity
-          style={styles.ctaButton}
-          onPress={startProjectDiscussion}
-        >
-          <Ionicons name="send" size={20} color="#fff" />
-          <Text style={styles.ctaButtonText}>Start a Project Discussion</Text>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+        {/* Contact Form CTA */}
+        <Card style={styles.ctaCard}>
+          <Button
+            title="Start a Project Discussion"
+            onPress={startProjectDiscussion}
+            icon="send"
+            variant="primary"
+            size="large"
+            fullWidth
+          />
+        </Card>
+      </ScrollView>
+    </View>
   );
 }
 
-const styles = StyleSheet.create({
+const createStyles = (colors: any) => StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8f9fa',
+    backgroundColor: colors.background,
+  },
+  scrollView: {
+    flex: 1,
   },
   header: {
-    backgroundColor: '#667eea',
+    backgroundColor: colors.headerGradientStart,
     paddingTop: 60,
     paddingBottom: 30,
     borderBottomLeftRadius: 25,
@@ -325,101 +296,29 @@ const styles = StyleSheet.create({
   },
   headerSubtitle: {
     fontSize: 16,
-    color: '#e8f4fd',
+    color: 'rgba(255,255,255,0.9)',
     textAlign: 'center',
     lineHeight: 22,
   },
-  quickActionsSection: {
-    backgroundColor: '#fff',
-    margin: 15,
-    marginTop: -10,
-    marginBottom: 25,
-    padding: 25,
-    borderRadius: 18,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.08,
-    shadowRadius: 12,
-    elevation: 5,
+  quickActionsCard: {
+    marginTop: -15,
+    marginHorizontal: 15,
+    marginBottom: 15,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '800',
-    color: '#2c3e50',
-    marginBottom: 25,
-    letterSpacing: 0.8,
+  cardTitle: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: colors.text,
+    marginBottom: 20,
     textAlign: 'center',
   },
   quickActionsGrid: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    gap: 20,
+    gap: 15,
   },
   quickActionButton: {
     flex: 1,
-    alignItems: 'center',
-    paddingVertical: 28,
-    paddingHorizontal: 20,
-    borderRadius: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.2,
-    shadowRadius: 12,
-    elevation: 8,
-  },
-  quickActionText: {
-    color: '#fff',
-    fontWeight: '800',
-    marginTop: 12,
-    fontSize: 17,
-    letterSpacing: 0.5,
-    textAlign: 'center',
-  },
-  contactSection: {
-    margin: 15,
-    marginTop: 10,
-  },
-  contactButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    padding: 20,
-    marginBottom: 15,
-    borderRadius: 16,
-    borderLeftWidth: 4,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 4,
-  },
-  gradientButton: {
-    borderWidth: 2,
-    borderColor: '#667eea',
-  },
-  iconContainer: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 15,
-  },
-  contactInfo: {
-    flex: 1,
-  },
-  contactTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 4,
-  },
-  contactSubtitle: {
-    fontSize: 14,
-    color: '#666',
-  },
-  socialSection: {
-    margin: 15,
   },
   socialGrid: {
     flexDirection: 'row',
@@ -429,36 +328,10 @@ const styles = StyleSheet.create({
   },
   socialButton: {
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 16,
-    borderRadius: 12,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  socialButtonText: {
-    color: '#fff',
-    fontWeight: '600',
-    marginLeft: 8,
-    fontSize: 14,
-  },
-  responseSection: {
-    margin: 15,
   },
   responseCard: {
-    backgroundColor: '#fff',
-    padding: 20,
-    borderRadius: 16,
     flexDirection: 'row',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 4,
+    alignItems: 'center',
   },
   responseIcon: {
     marginRight: 15,
@@ -471,31 +344,18 @@ const styles = StyleSheet.create({
   responseTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color: '#333',
+    color: colors.text,
     marginBottom: 5,
   },
   responseText: {
     fontSize: 14,
-    color: '#666',
+    color: colors.textSecondary,
     marginBottom: 5,
   },
   responseSubtext: {
     fontSize: 12,
-    color: '#999',
+    color: colors.textTertiary,
     fontStyle: 'italic',
-  },
-  availabilitySection: {
-    margin: 15,
-  },
-  availabilityCard: {
-    backgroundColor: '#fff',
-    padding: 20,
-    borderRadius: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 3 },
-    shadowOpacity: 0.1,
-    shadowRadius: 6,
-    elevation: 4,
   },
   availabilityHeader: {
     flexDirection: 'row',
@@ -511,23 +371,23 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: '#4CAF50',
+    backgroundColor: colors.success,
     marginRight: 8,
   },
   statusText: {
     fontSize: 14,
-    color: '#4CAF50',
+    color: colors.success,
     fontWeight: '600',
   },
   availabilityTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333',
+    color: colors.text,
     marginBottom: 10,
   },
   availabilityText: {
     fontSize: 15,
-    color: '#666',
+    color: colors.textSecondary,
     lineHeight: 22,
     marginBottom: 15,
   },
@@ -537,39 +397,19 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   opportunityTag: {
-    backgroundColor: '#e8f4fd',
+    backgroundColor: colors.primary + '20',
     paddingHorizontal: 12,
     paddingVertical: 6,
     borderRadius: 12,
     borderWidth: 1,
-    borderColor: '#d4edda',
+    borderColor: colors.primary + '30',
   },
   opportunityTagText: {
     fontSize: 12,
-    color: '#667eea',
+    color: colors.primary,
     fontWeight: '500',
   },
-  ctaSection: {
-    margin: 15,
+  ctaCard: {
     marginBottom: 30,
-  },
-  ctaButton: {
-    backgroundColor: '#667eea',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 18,
-    borderRadius: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.2,
-    shadowRadius: 8,
-    elevation: 6,
-  },
-  ctaButtonText: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginLeft: 10,
   },
 });
