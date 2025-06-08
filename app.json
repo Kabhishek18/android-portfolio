@@ -1,15 +1,15 @@
 {
   "expo": {
-    "name": "PortfolioApp",
-    "slug": "PortfolioApp",
+    "name": "kabhishek18",
+    "slug": "kabhishek18",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/Devicon.png",
     "scheme": "portfolioapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/splash-icon.png",
+      "image": "./assets/images/Devsplash-icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -17,8 +17,10 @@
       "supportsTablet": true
     },
     "android": {
+      "package": "com.kabhishek18.portfolio",
+      "versionCode": 1,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/Devadaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true
@@ -33,6 +35,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "9fb953f6-42e3-4346-a596-642e42663f67"
+      }
     }
   }
 }
