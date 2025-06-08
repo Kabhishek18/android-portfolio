@@ -18,7 +18,7 @@ import {
   SocialButton,
   Button,
   Card
-} from '../../components/ui';
+} from '../components/ui';
 
 export default function ContactScreen() {
   const { colors, colorScheme } = useTheme();

@@ -2,7 +2,7 @@
 import React from 'react';
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useTheme } from '../../contexts/ThemeContext';
+import { useTheme } from '../../../contexts/ThemeContext';
 import { ContactButtonProps } from './types';
 
 const ContactButton: React.FC<ContactButtonProps> = ({

@@ -1,7 +1,7 @@
-// components/ui/Avatar.tsx
+// app/components/ui/Avatar.tsx
 import React from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
-import { useTheme } from '../../contexts/ThemeContext';
+import { useTheme } from '../../../contexts/ThemeContext';
 import { AvatarProps } from './types';
 
 const Avatar: React.FC<AvatarProps> = ({

@@ -10,8 +10,8 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../contexts/ThemeContext';
 import { portfolioData } from '../../constants/portfolioData';
-import { ProjectCard, FilterButton } from '../../components/ui';
-import { Project } from '../../components/ui/types';
+import { ProjectCard, FilterButton } from '../components/ui';
+import { Project } from '../components/ui/types';
 
 export default function ProjectsScreen() {
   const { colors, colorScheme } = useTheme();

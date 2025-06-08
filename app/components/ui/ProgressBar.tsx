@@ -1,7 +1,7 @@
 // components/ui/ProgressBar.tsx
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Animated } from 'react-native';
-import { useTheme } from '../../contexts/ThemeContext';
+import { useTheme } from '../../../contexts/ThemeContext';
 import { ProgressBarProps } from './types';
 
 const ProgressBar: React.FC<ProgressBarProps> = ({

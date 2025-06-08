@@ -13,8 +13,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { useTheme } from '../../contexts/ThemeContext';
 import { portfolioData } from '../../constants/portfolioData';
-import Card from '../../components/ui/Card';
-import Button from '../../components/ui/Button';
+import { Card, Button } from '../components/ui';
 
 export default function HomeScreen() {
   const { colors, colorScheme } = useTheme();

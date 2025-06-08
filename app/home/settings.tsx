@@ -8,7 +8,7 @@ import {
   StatusBar,
 } from 'react-native';
 import { useTheme } from '../../contexts/ThemeContext';
-import { Section, ThemeToggle, Card } from '../../components/ui';
+import { Section, ThemeToggle, Card } from '../components/ui';
 
 export default function SettingsScreen() {
   const { colors, colorScheme } = useTheme();

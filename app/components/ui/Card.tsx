@@ -1,7 +1,7 @@
-// components/ui/Card.tsx
+// app/components/ui/Card.tsx
 import React from 'react';
 import { View, StyleSheet, ViewStyle } from 'react-native';
-import { useTheme } from '../../contexts/ThemeContext';
+import { useTheme } from '../../../contexts/ThemeContext';
 import { CardProps } from './types';
 
 const Card: React.FC<CardProps> = ({

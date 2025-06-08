@@ -1,4 +1,4 @@
-// components/ui/Button.tsx
+// app/components/ui/Button.tsx
 import React from 'react';
 import {
   TouchableOpacity,
@@ -9,7 +9,7 @@ import {
   TextStyle,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useTheme } from '../../contexts/ThemeContext';
+import { useTheme } from '../../../contexts/ThemeContext';
 import { ButtonProps } from './types';
 
 const Button: React.FC<ButtonProps> = ({
