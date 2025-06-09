@@ -14,16 +14,17 @@ A modern, feature-rich portfolio mobile application built with React Native and 
   <img src="./assets/screenshots/2.jpeg" width="200" alt="Dark Projects Screen" />
   <img src="./assets/screenshots/3.jpeg" width="200" alt="Dark Skills Screen" />
   <img src="./assets/screenshots/4.jpeg" width="200" alt="Dark Contact Screen" />
-  <img src="./assets/screenshots/5.jpeg" width="200" alt="Dark Settings Screen" />
 </div>
 <div align="center">
   <img src="./assets/screenshots/6.jpeg" width="200" alt="Home Screen" />
   <img src="./assets/screenshots/7.jpeg" width="200" alt="Projects Screen" />
   <img src="./assets/screenshots/8.jpeg" width="200" alt="Skills Screen" />
   <img src="./assets/screenshots/9.jpeg" width="200" alt="Contact Screen" />
-  <img src="./assets/screenshots/10.jpeg" width="200" alt="Settings Screen" />
 </div>
-
+<div align="center">
+  <img src="./assets/screenshots/10.jpeg" width="200" alt="Settings Screen" />
+  <img src="./assets/screenshots/5.jpeg" width="200" alt="Dark Settings Screen" />
+</div>
 
 ## ✨ Latest Release - v1.2.0
 
