@@ -1,4 +1,4 @@
-// app/home/skills.tsx - Enhanced with Dark Mode and Modular Components
+// app/home/skills.tsx - Enhanced with Safe Areas for SDK 53
 import React, { useState } from 'react';
 import {
   View,
@@ -7,6 +7,7 @@ import {
   FlatList,
   StatusBar,
 } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../contexts/ThemeContext';
 import { portfolioData } from '../../constants/portfolioData';
 import { SkillCard, FilterButton } from '../components/ui';
@@ -14,6 +15,7 @@ import { Skill } from '../components/ui/types';
 
 export default function SkillsScreen() {
   const { colors, colorScheme } = useTheme();
+  const insets = useSafeAreaInsets();
   const [filter, setFilter] = useState('All');
 
   const categories = ['All', 'Expert', 'Advanced', 'Intermediate'];
@@ -58,10 +60,10 @@ export default function SkillsScreen() {
     );
   };
 
-  const styles = createStyles(colors);
+  const styles = createStyles(colors, insets);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <StatusBar
         barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
         backgroundColor={colors.background}
@@ -113,18 +115,18 @@ export default function SkillsScreen() {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.listContainer}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
-const createStyles = (colors: any) => StyleSheet.create({
+const createStyles = (colors: any, insets: any) => StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
   },
   header: {
     padding: 20,
-    paddingTop: 60,
+    paddingTop: 20,
     backgroundColor: colors.surface,
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
@@ -192,6 +194,6 @@ const createStyles = (colors: any) => StyleSheet.create({
     borderTopRightRadius: 12,
   },
   listContainer: {
-    paddingBottom: 30,
+    paddingBottom: insets.bottom + 85,
   },
 });

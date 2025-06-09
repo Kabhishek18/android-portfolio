@@ -1,4 +1,4 @@
-// app/home/index.tsx - Enhanced with Dark Mode
+// app/home/index.tsx - Enhanced with Safe Areas for SDK 53
 import React from 'react';
 import {
   View,
@@ -11,22 +11,24 @@ import {
   StatusBar,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../contexts/ThemeContext';
 import { portfolioData } from '../../constants/portfolioData';
 import { Card, Button } from '../components/ui';
 
 export default function HomeScreen() {
   const { colors, colorScheme } = useTheme();
+  const insets = useSafeAreaInsets();
   const { profile, stats, currentWork, domains, achievements, socialLinks } = portfolioData;
 
   const openLink = (url: string) => {
     Linking.openURL(url);
   };
 
-  const styles = createStyles(colors);
+  const styles = createStyles(colors, insets);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <StatusBar
         barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
         backgroundColor={colors.background}
@@ -36,6 +38,7 @@ export default function HomeScreen() {
         style={styles.scrollView}
         showsVerticalScrollIndicator={false}
         contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={styles.scrollContent}
       >
         {/* Hero Section */}
         <View style={styles.heroSection}>
@@ -205,11 +208,11 @@ export default function HomeScreen() {
           </View>
         </Card>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 
-const createStyles = (colors: any) => StyleSheet.create({
+const createStyles = (colors: any, insets: any) => StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
@@ -217,9 +220,12 @@ const createStyles = (colors: any) => StyleSheet.create({
   scrollView: {
     flex: 1,
   },
+  scrollContent: {
+    paddingBottom: insets.bottom + 85, // Adjusted for SDK 53 tab bar
+  },
   heroSection: {
     backgroundColor: colors.headerGradientStart,
-    paddingTop: 60,
+    paddingTop: 20,
     paddingBottom: 40,
     alignItems: 'center',
     borderBottomLeftRadius: 30,

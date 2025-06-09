@@ -1,4 +1,4 @@
-// app/home/projects.tsx - Enhanced with Modular Components
+// app/home/projects.tsx - Enhanced with Safe Areas for SDK 53
 import React, { useState } from 'react';
 import {
   View,
@@ -8,6 +8,7 @@ import {
   StatusBar,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../contexts/ThemeContext';
 import { portfolioData } from '../../constants/portfolioData';
 import { ProjectCard, FilterButton } from '../components/ui';
@@ -15,6 +16,7 @@ import { Project } from '../components/ui/types';
 
 export default function ProjectsScreen() {
   const { colors, colorScheme } = useTheme();
+  const insets = useSafeAreaInsets();
   const [filter, setFilter] = useState('Recent');
 
   const projectTypes = ['Recent', 'All', 'PyPI Package', 'Web Application', 'Template', 'Educational', 'Tool'];
@@ -56,10 +58,10 @@ export default function ProjectsScreen() {
     );
   };
 
-  const styles = createStyles(colors);
+  const styles = createStyles(colors, insets);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <StatusBar
         barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
         backgroundColor={colors.background}
@@ -98,18 +100,18 @@ export default function ProjectsScreen() {
           </View>
         }
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
-const createStyles = (colors: any) => StyleSheet.create({
+const createStyles = (colors: any, insets: any) => StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
   },
   header: {
     padding: 20,
-    paddingTop: 60,
+    paddingTop: 20,
     backgroundColor: colors.surface,
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
@@ -134,7 +136,7 @@ const createStyles = (colors: any) => StyleSheet.create({
     paddingHorizontal: 15,
   },
   listContainer: {
-    paddingBottom: 20,
+    paddingBottom: insets.bottom + 85,
   },
   emptyContainer: {
     flex: 1,

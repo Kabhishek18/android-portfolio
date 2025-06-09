@@ -1,204 +1,381 @@
-# 📦 Enhanced Portfolio App Installation Guide
+# 📱 Portfolio App - Kumar Abhishek
 
-## 🚀 Complete Setup with Dark Mode & Modular Architecture
+A modern, feature-rich portfolio mobile application built with React Native and Expo, showcasing professional experience, projects, skills, and contact information with a beautiful dark/light theme system.
 
-### 1. Install Additional Dependencies
+[![Expo SDK](https://img.shields.io/badge/Expo%20SDK-53-000020.svg?style=flat-square&logo=expo&labelColor=000020&logoColor=white)](https://expo.dev/)
+[![React Native](https://img.shields.io/badge/React%20Native-0.79.3-61DAFB.svg?style=flat-square&logo=react&labelColor=000&logoColor=61DAFB)](https://reactnative.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.8.3-3178C6.svg?style=flat-square&logo=typescript&labelColor=000&logoColor=3178C6)](https://www.typescriptlang.org/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg?style=flat-square)](LICENSE)
 
-```bash
-cd PortfolioApp
+## 📱 Screenshots
 
-# Install required packages
-npm install react-native-gesture-handler expo-blur
+<div align="center">
+  <img src="./assets/screenshots/1.jpeg" width="200" alt="Dark Home Screen" />
+  <img src="./assets/screenshots/2.jpeg" width="200" alt="Dark Projects Screen" />
+  <img src="./assets/screenshots/3.jpeg" width="200" alt="Dark Skills Screen" />
+  <img src="./assets/screenshots/4.jpeg" width="200" alt="Dark Contact Screen" />
+  <img src="./assets/screenshots/5.jpeg" width="200" alt="Dark Settings Screen" />
+</div>
+<div align="center">
+  <img src="./assets/screenshots/6.jpeg" width="200" alt="Home Screen" />
+  <img src="./assets/screenshots/7.jpeg" width="200" alt="Projects Screen" />
+  <img src="./assets/screenshots/8.jpeg" width="200" alt="Skills Screen" />
+  <img src="./assets/screenshots/9.jpeg" width="200" alt="Contact Screen" />
+  <img src="./assets/screenshots/10.jpeg" width="200" alt="Settings Screen" />
+</div>
 
-# For iOS, install pods
-cd ios && pod install && cd ..
-```
 
-### 2. Create Folder Structure
+## ✨ Latest Release - v1.2.0
 
-```bash
-# Create the enhanced folder structure
-mkdir -p contexts
-mkdir -p components/ui
-mkdir -p hooks
-mkdir -p utils
-mkdir -p types
-```
+### 🌟 Major Features Added
+- **🌓 Advanced Dark/Light Theme System** - Automatic system sync with manual override
+- **📱 Safe Area Implementation** - Perfect layout on all devices with notches/dynamic islands
+- **🎨 Enhanced UI/UX** - Glassmorphism effects, micro-animations, and modern design
+- **🧱 Modular Architecture** - Reusable components with TypeScript support
+- **⚡ Performance Optimizations** - Smooth animations and optimized rendering
 
-### 3. File Structure Overview
+### 🔧 Technical Improvements
+- **SDK Update**: Upgraded to Expo SDK 53 for latest features and security
+- **Safe Areas**: Implemented react-native-safe-area-context for proper spacing
+- **TypeScript**: Full type safety across all components
+- **Theme Context**: Advanced theming system with context providers
+- **Bug Fixes**: Resolved navigation issues and improved stability
+
+### 🎯 Bug Patches & Fixes
+- Fixed tab bar spacing on devices with home indicators
+- Resolved status bar color issues in different themes
+- Improved component rendering performance
+- Fixed gesture handler conflicts
+- Corrected theme toggle functionality
+
+## 🚀 Features
+
+### 🎨 **Advanced Theme System**
+- **Light Mode**: Clean, professional light interface
+- **Dark Mode**: Modern dark theme for low-light usage
+- **System Mode**: Automatically follows device theme
+- **Smooth Transitions**: Seamless theme switching with animations
+
+### 📊 **Portfolio Sections**
+- **Home**: Professional profile with stats and achievements
+- **Projects**: Filterable project showcase with GitHub/PyPI links
+- **Skills**: Interactive skill levels with progress indicators
+- **Contact**: Multiple contact methods with direct integration
+- **Settings**: Theme customization and app information
+
+### 🛠️ **Technical Features**
+- **Safe Area Support**: Works perfectly on all device types
+- **Gesture Navigation**: Smooth navigation with gesture support
+- **Animated Components**: Micro-interactions and smooth transitions
+- **Modular Components**: Reusable UI library with TypeScript
+- **Cross-Platform**: iOS, Android, and Web support
+
+## 🏗️ Architecture
 
 ```
 PortfolioApp/
 ├── app/
+│   ├── _layout.tsx                 # Root layout with providers
+│   ├── index.tsx                   # App entry point
 │   ├── home/
-│   │   ├── _layout.tsx          ✅ Enhanced with theme
-│   │   ├── index.tsx            ✅ Enhanced home screen
-│   │   ├── projects.tsx         ✅ Projects with dark mode
-│   │   ├── skills.tsx           ✅ Skills with animations
-│   │   └── contact.tsx          ✅ Contact with theme
-│   ├── _layout.tsx              ✅ Root layout with providers
-│   └── index.tsx                ✅ App entry point
+│   │   ├── _layout.tsx            # Tab navigation layout
+│   │   ├── index.tsx              # Home screen
+│   │   ├── projects.tsx           # Projects showcase
+│   │   ├── skills.tsx             # Skills overview
+│   │   ├── contact.tsx            # Contact information
+│   │   └── settings.tsx           # App settings
+│   └── components/
+│       └── ui/                    # Reusable UI components
+│           ├── Card.tsx
+│           ├── Button.tsx
+│           ├── Badge.tsx
+│           ├── ProjectCard.tsx
+│           ├── SkillCard.tsx
+│           ├── ContactButton.tsx
+│           ├── ThemeToggle.tsx
+│           ├── FilterButton.tsx
+│           └── types.ts           # TypeScript definitions
 ├── contexts/
-│   └── ThemeContext.tsx         🆕 Dark mode system
-├── components/
-│   └── ui/
-│       ├── index.ts             🆕 Component exports
-│       ├── types.ts             🆕 TypeScript types
-│       ├── Card.tsx             🆕 Enhanced card component
-│       ├── Button.tsx           🆕 Enhanced button component
-│       └── ProjectCard.tsx      🆕 Modular project card
+│   └── ThemeContext.tsx           # Theme management
 ├── constants/
-│   └── portfolioData.ts         ✅ Updated data
+│   └── portfolioData.ts           # App data and content
 └── assets/
-    └── images/
-        └── profile.jpeg         📸 Your photo
+    ├── images/                    # App icons and images
+    └── screenshots/               # App screenshots
 ```
 
-### 4. Package.json Dependencies
+## 🛠️ Installation & Setup
 
-Update your `package.json` to include:
+### Prerequisites
+- Node.js 18+
+- Expo CLI
+- iOS Simulator (Mac) or Android Studio
+- Expo Go app on your device
+
+### Quick Start
+
+```bash
+# Clone the repository
+git clone https://github.com/kabhishek18/PortfolioApp.git
+cd PortfolioApp
+
+# Install dependencies
+npm install
+
+# Start development server
+npx expo start
+
+# Run on specific platform
+npx expo start --ios      # iOS Simulator
+npx expo start --android  # Android Emulator
+npx expo start --web      # Web Browser
+```
+
+### Dependencies
 
 ```json
 {
-  "dependencies": {
-    "@expo/vector-icons": "^14.1.0",
-    "@react-navigation/native": "^7.1.6",
-    "expo": "~53.0.10",
-    "expo-blur": "~13.0.2",
-    "expo-font": "~13.3.1",
-    "expo-linking": "~7.1.5",
-    "expo-router": "~5.0.7",
-    "expo-splash-screen": "~0.30.9",
-    "expo-status-bar": "~2.2.3",
-    "expo-system-ui": "~5.0.8",
-    "expo-web-browser": "~14.1.6",
-    "react": "19.0.0",
-    "react-dom": "19.0.0",
-    "react-native": "0.79.3",
-    "react-native-gesture-handler": "~2.20.2",
-    "react-native-reanimated": "~3.17.4",
-    "react-native-safe-area-context": "5.4.0",
-    "react-native-screens": "~4.11.1",
-    "react-native-web": "~0.20.0"
-  }
+  "expo": "~53.0.10",
+  "react": "19.0.0",
+  "react-native": "0.79.3",
+  "react-native-safe-area-context": "5.4.0",
+  "react-native-gesture-handler": "~2.24.0",
+  "expo-router": "~5.0.7",
+  "expo-blur": "^14.1.5"
 }
 ```
 
-### 5. Key Features Added
+## 🎯 Usage
 
-#### 🌓 **Advanced Dark Mode System**
-- **System sync** - Automatically follows device theme
-- **Manual toggle** - Users can override system preference
-- **Smooth transitions** - All components adapt seamlessly
-- **Proper status bar** - Adjusts based on theme
+### Running the App
 
-#### 🎨 **Enhanced UI/UX Design**
-- **Glassmorphism effects** - Modern blur backgrounds
-- **Micro-animations** - Smooth transitions and hover effects
-- **Better typography** - Improved font weights and spacing
-- **Professional shadows** - Depth and elevation
-- **Color consistency** - Theme-aware color system
+1. **Development Mode**:
+   ```bash
+   npx expo start --clear
+   ```
 
-#### 🧱 **Modular Architecture**
-- **Reusable components** - Card, Button, ProjectCard, etc.
-- **TypeScript types** - Full type safety
-- **Context providers** - Clean state management
-- **Separation of concerns** - Better code organization
+2. **Device Testing**:
+    - Install Expo Go on your device
+    - Scan QR code from terminal
 
-### 6. Enhanced Features
+3. **Production Build**:
+   ```bash
+   # Install EAS CLI
+   npm install -g @expo/cli
+   
+   # Build for Android
+   npx expo build:android
+   
+   # Build for iOS
+   npx expo build:ios
+   ```
 
-#### **Theme Toggle in Tab Bar**
-- Fifth tab acts as theme switcher
-- Cycles through: Light → Dark → System
-- Real-time theme switching
-- Icon changes based on current theme
+### Customization
 
-#### **Advanced Card Component**
+1. **Update Profile Data**:
+   ```typescript
+   // constants/portfolioData.ts
+   export const portfolioData = {
+     profile: {
+       name: "Your Name",
+       title: "Your Title",
+       // ... update other fields
+     }
+   };
+   ```
+
+2. **Add/Modify Projects**:
+   ```typescript
+   // Add to recentProjects or allProjects array
+   {
+     id: 999,
+     title: "New Project",
+     description: "Project description",
+     technologies: ["React", "TypeScript"],
+     githubUrl: "https://github.com/username/project"
+   }
+   ```
+
+3. **Customize Theme**:
+   ```typescript
+   // contexts/ThemeContext.tsx
+   export const lightColors = {
+     primary: '#your-color',
+     // ... other colors
+   };
+   ```
+
+## 🎨 Theme System
+
+The app features an advanced theming system:
+
+### Theme Options
+- **Light Mode**: Professional light interface
+- **Dark Mode**: Modern dark theme
+- **System**: Follows device setting
+
+### Implementation
 ```typescript
-<Card elevated padding={20} margin={15} radius={16}>
-  <Text>Content goes here</Text>
-</Card>
+const { colors, theme, toggleTheme } = useTheme();
+
+// Theme-aware components automatically adapt
+<View style={{ backgroundColor: colors.surface }}>
+  <Text style={{ color: colors.text }}>Content</Text>
+</View>
 ```
 
-#### **Enhanced Button Component**
+## 📱 Screens Overview
+
+### 🏠 Home Screen
+- Professional profile with photo
+- Key statistics and achievements
+- Current work and specializations
+- Domain expertise overview
+- Social links and quick actions
+
+### 💼 Projects Screen
+- Filterable project showcase
+- Project categories (PyPI, Web App, Tools, etc.)
+- GitHub stars and license information
+- Direct links to repositories and packages
+
+### 🛠️ Skills Screen
+- Interactive skill level indicators
+- Categorized by proficiency (Expert, Advanced, Intermediate)
+- Progress bars with animations
+- Years of experience for each skill
+
+### 📞 Contact Screen
+- Multiple contact methods
+- Direct integration with email, phone, WhatsApp
+- Social and professional links
+- Availability status and response time
+
+### ⚙️ Settings Screen
+- Theme customization options
+- App information and version details
+- Feature overview
+
+## 🔧 Development
+
+### Adding New Components
+
+1. Create component in `app/components/ui/`:
+   ```typescript
+   // app/components/ui/NewComponent.tsx
+   interface NewComponentProps {
+     title: string;
+     onPress: () => void;
+   }
+   
+   const NewComponent: React.FC<NewComponentProps> = ({ title, onPress }) => {
+     const { colors } = useTheme();
+     // Component implementation
+   };
+   ```
+
+2. Export from index:
+   ```typescript
+   // app/components/ui/index.ts
+   export { default as NewComponent } from './NewComponent';
+   ```
+
+3. Add TypeScript types:
+   ```typescript
+   // app/components/ui/types.ts
+   export interface NewComponentProps extends BaseComponentProps {
+     title: string;
+     onPress: () => void;
+   }
+   ```
+
+### Safe Area Implementation
+
+All screens use safe area context for proper spacing:
+
 ```typescript
-<Button
-  title="Click Me"
-  onPress={handlePress}
-  icon="star"
-  variant="primary"
-  size="large"
-  loading={isLoading}
-/>
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
+
+const Screen = () => {
+  const insets = useSafeAreaInsets();
+  
+  return (
+    <SafeAreaView style={styles.container} edges={['top']}>
+      <ScrollView contentContainerStyle={{ 
+        paddingBottom: insets.bottom + 85 
+      }}>
+        {/* Content */}
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
 ```
 
-#### **Smart Project Cards**
-- Type-specific colors and icons
-- GitHub stars display
-- License information
-- Technology tags
-- Action buttons
+## 🚀 Deployment
 
-### 7. Running the Enhanced App
-
+### Expo Go (Recommended for Development)
 ```bash
-# Clear cache and start
-npx expo start --clear
-
-# For specific platforms
-npx expo start --android
-npx expo start --ios
-npx expo start --web
+npx expo start
+# Scan QR code with Expo Go app
 ```
 
-### 8. Customization Options
-
-#### **Theme Colors**
-Edit `contexts/ThemeContext.tsx` to customize:
-- Primary/secondary colors
-- Background colors
-- Text colors
-- Shadow colors
-
-#### **Add New Components**
-1. Create in `components/ui/`
-2. Export from `components/ui/index.ts`
-3. Add types to `components/ui/types.ts`
-
-#### **Component Usage Examples**
-```typescript
-import { Card, Button, ProjectCard } from '../components/ui';
-
-// Use throughout your app
-<Card>
-  <Button title="Action" onPress={handlePress} />
-</Card>
-```
-
-### 9. Build for Production
-
+### EAS Build (Production)
 ```bash
-# Install EAS CLI
-npm install -g @expo/cli
-
-# Configure build
-npx eas build:configure
+# Configure EAS
+npx expo install @expo/cli
+eas build:configure
 
 # Build for Android
-npx eas build --platform android
+eas build --platform android
 
-# Build for iOS (requires Apple Developer account)
-npx eas build --platform ios
+# Build for iOS
+eas build --platform ios
 ```
 
-## 🎯 What's Enhanced
+### Web Deployment
+```bash
+npx expo export --platform web
+# Deploy the 'dist' folder to your hosting service
+```
 
-✅ **Dark Mode System** - Full theme support with system sync  
-✅ **Modular Components** - Reusable UI library  
-✅ **Better Architecture** - Separated concerns and clean code  
-✅ **Enhanced UX** - Animations, blur effects, micro-interactions  
-✅ **TypeScript** - Full type safety throughout  
-✅ **Performance** - Optimized rendering and animations  
-✅ **Accessibility** - Proper contrast and screen reader support  
+## 🤝 Contributing
 
-Your portfolio app is now a professional, modern application ready for the app stores! 🚀
+1. Fork the repository
+2. Create a feature branch: `git checkout -b feature/amazing-feature`
+3. Commit changes: `git commit -m 'Add amazing feature'`
+4. Push to branch: `git push origin feature/amazing-feature`
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 👨‍💻 Author
+
+**Kumar Abhishek**
+- Website: [kabhishek18.com](https://kabhishek18.com)
+- GitHub: [@kabhishek18](https://github.com/kabhishek18)
+- LinkedIn: [kabhishek18](https://linkedin.com/in/kabhishek18)
+- Email: developer@kabhishek18.com
+
+## 🙏 Acknowledgments
+
+- [Expo](https://expo.dev/) for the amazing development platform
+- [React Native](https://reactnative.dev/) for cross-platform mobile development
+- [TypeScript](https://www.typescriptlang.org/) for type safety
+- [Ionicons](https://ionic.io/ionicons) for beautiful icons
+
+## 📊 Stats
+
+- **Lines of Code**: 5,000+
+- **Components**: 15+ reusable UI components
+- **Screens**: 5 main screens with navigation
+- **Themes**: 2 complete themes (Light/Dark)
+- **Platforms**: iOS, Android, Web
+
+---
+
+<div align="center">
+  <p>Made with ❤️ by <a href="https://github.com/kabhishek18">Kumar Abhishek</a></p>
+  <p>⭐ Star this repo if you found it helpful!</p>
+</div>

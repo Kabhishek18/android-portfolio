@@ -1,12 +1,14 @@
-// app/home/_layout.tsx - Fixed Navigation Layout
+// app/home/_layout.tsx - Updated Tab Layout with Safe Areas for SDK 53
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Ionicons } from '@expo/vector-icons';
 import { Tabs } from 'expo-router';
 import { Platform } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../contexts/ThemeContext';
 
 export default function TabLayout() {
   const { colors } = useTheme();
+  const insets = useSafeAreaInsets();
 
   return (
     <Tabs
@@ -17,8 +19,8 @@ export default function TabLayout() {
           backgroundColor: colors.surface,
           borderTopWidth: 1,
           borderTopColor: colors.border,
-          height: Platform.OS === 'ios' ? 95 : 70,
-          paddingBottom: Platform.OS === 'ios' ? 30 : 10,
+          height: Platform.OS === 'ios' ? 90 + insets.bottom : 65 + insets.bottom,
+          paddingBottom: Platform.OS === 'ios' ? 25 + insets.bottom : 8 + insets.bottom,
           paddingTop: 8,
           paddingHorizontal: 8,
           shadowColor: colors.shadow,

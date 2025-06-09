@@ -1,4 +1,4 @@
-// app/home/settings.tsx - Settings Screen for Theme Toggle
+// app/home/settings.tsx - Settings Screen with Safe Areas for SDK 53
 import React from 'react';
 import {
   View,
@@ -7,22 +7,28 @@ import {
   ScrollView,
   StatusBar,
 } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useTheme } from '../../contexts/ThemeContext';
 import { Section, ThemeToggle, Card } from '../components/ui';
 
 export default function SettingsScreen() {
   const { colors, colorScheme } = useTheme();
+  const insets = useSafeAreaInsets();
 
-  const styles = createStyles(colors);
+  const styles = createStyles(colors, insets);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <StatusBar
         barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
         backgroundColor={colors.background}
       />
 
-      <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        style={styles.scrollView}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={styles.scrollContent}
+      >
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Settings</Text>
           <Text style={styles.headerSubtitle}>
@@ -54,23 +60,46 @@ export default function SettingsScreen() {
           <Text style={styles.infoTitle}>App Information</Text>
           <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>Version:</Text>
-            <Text style={styles.infoValue}>1.0.0</Text>
+            <Text style={styles.infoValue}>1.2.0</Text>
+          </View>
+          <View style={styles.infoRow}>
+            <Text style={styles.infoLabel}>SDK:</Text>
+            <Text style={styles.infoValue}>Expo SDK 53</Text>
           </View>
           <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>Build:</Text>
-            <Text style={styles.infoValue}>Enhanced with Dark Mode</Text>
+            <Text style={styles.infoValue}>Enhanced with Safe Areas</Text>
           </View>
           <View style={styles.infoRow}>
             <Text style={styles.infoLabel}>Framework:</Text>
             <Text style={styles.infoValue}>React Native with Expo</Text>
           </View>
         </Card>
+
+        <Card>
+          <Text style={styles.infoTitle}>Features</Text>
+          <Text style={styles.featureText}>
+            ✅ Dark & Light Theme Support
+          </Text>
+          <Text style={styles.featureText}>
+            ✅ Safe Area Layout (Top & Bottom)
+          </Text>
+          <Text style={styles.featureText}>
+            ✅ Modern UI Components
+          </Text>
+          <Text style={styles.featureText}>
+            ✅ Responsive Design
+          </Text>
+          <Text style={styles.featureText}>
+            ✅ Professional Portfolio Layout
+          </Text>
+        </Card>
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 
-const createStyles = (colors: any) => StyleSheet.create({
+const createStyles = (colors: any, insets: any) => StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.background,
@@ -78,9 +107,12 @@ const createStyles = (colors: any) => StyleSheet.create({
   scrollView: {
     flex: 1,
   },
+  scrollContent: {
+    paddingBottom: insets.bottom + 85,
+  },
   header: {
     padding: 20,
-    paddingTop: 60,
+    paddingTop: 20,
     backgroundColor: colors.surface,
     borderBottomWidth: 1,
     borderBottomColor: colors.border,
@@ -128,5 +160,11 @@ const createStyles = (colors: any) => StyleSheet.create({
     fontSize: 14,
     color: colors.text,
     fontWeight: '600',
+  },
+  featureText: {
+    fontSize: 14,
+    color: colors.textSecondary,
+    lineHeight: 22,
+    marginBottom: 8,
   },
 });
